@@ -1,7 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { useTicketContext } from "../context/TicketContext";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useEffect } from "react";
 
 const Pagination = () => {
   const { 
@@ -15,6 +15,13 @@ const Pagination = () => {
   const totalItems = filteredTickets.length;
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(startItem + itemsPerPage - 1, totalItems);
+
+  // Ensure currentPage doesn't exceed totalPages
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages, setCurrentPage]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
